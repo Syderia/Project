@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript">
+			
+			
+			$(function(){
+				var nowScore = 0;
+				var nowSecond = 0;
+				
+				function countGrade(winScore){  //計算分數
+					nowScore = nowScore + winScore;
+					$("#scorePannel").text(nowScore);
+				
+				}
+				
+				function getRandomX(){ //取得亂數x
+					var positionX = Math.floor((Math.random() * 800) + 1);
+					return positionX;
+				}
+				function getRandomY(){ //取得亂數y
+					var positionY = Math.floor((Math.random() * 640) + 1);
+					return positionY;
+				}
+				
+				//timer
+				countSecond();
+				function countSecond(){
+					nowSecond = nowSecond + 1;
+					$("#secondPannel").text(nowSecond);
+					var addSecond = setTimeout(countSecond,1000);
+				}
+				
+				giveMeStar();
+				function giveMeStar(){					
+					var choice = Math.floor((Math.random() * 3));
+					
+					var t = setTimeout(giveMeStar,2000);
+					var newStar;
+					if (choice == 0){
+						newStar = $("<img id='redStar' src='redStar.png' ></img>");
+						appendStarEvent(newStar,'red');
+					}else 
+					{
+						newStar = $("<img id='yellowStar' src='yellowStar.png' ></img>");
+						appendStarEvent(newStar,'yellow');
+					}
+					$('.starPannel').append(newStar);
+				}
+				
+				
+				function appendStarEvent(newEle ,color){
+					var x = getRandomX();
+					var y = getRandomY();
+					newEle.offset( {left:x, top:y});
+					newEle.click( function(){ //消除星星得分
+						if (color =='red')
+							countGrade(3);
+						else if (color =='yellow')
+							countGrade(5);
+						$(this).remove();
+					});
+				}
+				
+				
+			});
+			
+		</script>
+	</head>
+
+	<body>
+	 
+		<div id="scoreBar">
+			<p id="scorePannel">0</p>
+			<p id="secondPannel">0</p>
+		
+		</div>
+		<div class = "starPannel" style='height:800px;width:640;border:1px solid black;'>
+				
+		</div>
+		<!--<img id='redStar' src='redStar.png' ></img>
+		<img id='yellowStar' src='yellowStar.png'></img>-->
+		
+	</body>
+
+</html>
